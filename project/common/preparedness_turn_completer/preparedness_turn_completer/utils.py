@@ -58,9 +58,15 @@ CONTEXT_WINDOW_LENGTHS: dict[str, int] = {
 
 
 def get_model_context_window_length(model: str) -> int:
-    if model not in CONTEXT_WINDOW_LENGTHS:
-        raise ValueError(f"Model {model} not found in context window lengths")
-    return CONTEXT_WINDOW_LENGTHS[model]
+    if model in CONTEXT_WINDOW_LENGTHS:
+        return CONTEXT_WINDOW_LENGTHS[model]
+    # Fallback: strip provider prefix (e.g. "openai/gpt-4o" -> "gpt-4o")
+    base = model.split("/")[-1] if "/" in model else model
+    if base in CONTEXT_WINDOW_LENGTHS:
+        return CONTEXT_WINDOW_LENGTHS[base]
+    # Default to a reasonable context window for unknown models
+    logger.warning(f"Model {model} not found in context window lengths, defaulting to 128000")
+    return 128_000
 
 
 OPENAI_TIMEOUT_EXCEPTIONS = (

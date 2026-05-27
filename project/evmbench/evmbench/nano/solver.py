@@ -61,10 +61,18 @@ class EVMbenchSolver(PythonCodingSolver):
     detect_iterations: int = chz.field(default=1)
     disable_internet: bool = chz.field(default=True)
     debug_local: bool = chz.field(default=False)
+    judge_model: str = chz.field(default="gpt-5")
+    judge_base_url: str = chz.field(default="")
+    judge_api_key: str = chz.field(default="")
 
     @chz.init_property
     def runtime_config(self) -> EVMRuntimeConfig:
-        return EVMRuntimeConfig(agent_id=self.agent_id)
+        return EVMRuntimeConfig(
+            agent_id=self.agent_id,
+            judge_model=self.judge_model,
+            judge_base_url=self.judge_base_url,
+            judge_api_key=self.judge_api_key,
+        )
 
     def shortname(self) -> str:
         if self.agent_reasoning_effort:
