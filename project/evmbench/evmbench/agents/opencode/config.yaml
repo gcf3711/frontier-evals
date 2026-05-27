@@ -2,6 +2,12 @@ env-config-vars: &env-config-vars
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
   MODEL: openai/gpt-4.1
+  HTTP_PROXY: http://127.0.0.1:7890
+  HTTPS_PROXY: http://127.0.0.1:7890
+  http_proxy: http://127.0.0.1:7890
+  https_proxy: http://127.0.0.1:7890
+  ALL_PROXY: http://127.0.0.1:7890
+  all_proxy: http://127.0.0.1:7890
 
 common: &common_settings
   start: opencode/start.sh

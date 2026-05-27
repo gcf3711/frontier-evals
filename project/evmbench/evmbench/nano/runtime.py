@@ -18,4 +18,4 @@ class EVMRuntimeConfig(RuntimeConfig):
         return OpenAICompletionsTurnCompleter(model=self.judge_model, reasoning_effort=self.reasoning_effort, response_format=JudgeResult)
 
     def build_cluster_config(self, docker_image: str) -> ClusterConfig:
-        return LocalConfig(image=docker_image, pull_from_registry=False)
+        return LocalConfig(image=docker_image, pull_from_registry=False, local_network=True)
