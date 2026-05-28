@@ -29,7 +29,7 @@ from typing_extensions import override
 from evmbench.alcatraz import put_file_in_computer, put_text_in_computer, put_dir_in_computer
 from evmbench.agents.agent import AgentOutput, agent_registry
 from evmbench.agents.run import run_agent_in_computer
-from evmbench.constants import AUDIT_DIR, AGENT_DIR, SUBMISSION_DIR
+from evmbench.constants import AUDIT_DIR, AGENT_DIR, SUBMISSION_DIR, REMOTE_SKILL_STAGING_PATH
 from evmbench.nano.grade import EVMbenchGrade
 from evmbench.nano.task import EVMTask
 from evmbench.utils import get_audits_dir, purple
@@ -113,6 +113,14 @@ class EVMbenchSolver(PythonCodingSolver):
         if self.agent_reasoning_effort:
             cluster_config.environment = cluster_config.environment or {}
             cluster_config.environment["REASONING_EFFORT"] = self.agent_reasoning_effort
+
+        if task.skill_path:
+            from pathlib import Path
+            cluster_config.environment = cluster_config.environment or {}
+            cluster_config.environment["SKILL_STAGING_PATH"] = REMOTE_SKILL_STAGING_PATH
+            cluster_config.environment["SKILL_MODE"] = task.skill_mode
+            if task.skill_mode == "explicit":
+                cluster_config.environment["SKILL_NAME"] = Path(task.skill_path).name
 
         # If disable_internet is enabled, we put the agent container on a docker "internal" network
         # (no web access) while still allowing model API calls via a gateway sidecar.

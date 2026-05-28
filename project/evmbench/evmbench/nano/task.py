@@ -18,6 +18,7 @@ from evmbench.alcatraz import (
     check_shell_command_in_container,
     download_from_container,
     extract_dirs_from_computer,
+    put_dir_in_computer,
     put_file_in_computer,
     put_text_in_computer,
     send_shell_command_in_container,
@@ -52,6 +53,8 @@ class EVMTask(ComputerTask):
     remove_forge_artifacts: bool = True
     hint_level: Literal["none", "low", "med", "high", "max"] = "none"
     codex_auth_path: str | None = None # If provided, will be used to authenticate with Codex
+    skill_path: str | None = None # Path to skill folder(s) to upload to the container
+    skill_mode: Literal["explicit", "implicit"] = "explicit" # explicit: single skill prepended to prompt; implicit: all skills loaded
     use_sidecar: bool = True
     _veto_runtime: VetoRuntime | None = PrivateAttr(default=None)
     _ploit_toml_text: str | None = PrivateAttr(default=None)
@@ -476,6 +479,16 @@ class EVMTask(ComputerTask):
 
         if self.codex_auth_path:
             await put_file_in_computer(computer, self.codex_auth_path, REMOTE_CODEX_AUTH_PATH)
+
+        if self.skill_path:
+            if self.skill_mode == "explicit":
+                skill_name = Path(self.skill_path).name
+                await put_dir_in_computer(computer, self.skill_path, f"{REMOTE_SKILL_STAGING_PATH}/{skill_name}")
+            elif self.skill_mode == "implicit":
+                skill_dir = Path(self.skill_path)
+                for child in sorted(skill_dir.iterdir()):
+                    if child.is_dir() and (child / "SKILL.md").exists():
+                        await put_dir_in_computer(computer, str(child), f"{REMOTE_SKILL_STAGING_PATH}/{child.name}")
 
 
     @override

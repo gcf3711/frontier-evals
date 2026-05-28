@@ -105,6 +105,40 @@ Set `evmbench.solver.agent_id` to one of the IDs defined in `evmbench/agents/**/
 Examples: `human`, `codex-default`, `claude-default`, `gemini-default`, `opencode-default`.
 
 
+#### Using Skills
+
+Skills are specialized audit knowledge folders (each containing a `SKILL.md`) that can be injected into agents. Two modes are supported:
+
+**Explicit mode** (single skill, prepended to prompt):
+
+```bash
+uv run python -m evmbench.nano.entrypoint \
+    evmbench.audit=2023-07-pooltogether \
+    evmbench.mode=detect \
+    evmbench.solver=evmbench.nano.solver.EVMbenchSolver \
+    evmbench.solver.agent_id=codex \
+    evmbench.skill_path=/path/to/skills_dataset/reentrancy-auditor__xxx \
+    evmbench.skill_mode=explicit \
+    runner.concurrency=1
+```
+
+In explicit mode, the skill folder name is prepended to the agent's prompt using the agent-specific invocation syntax (`$name` for Codex, `/name` for Claude, `@name` for Gemini, natural language for OpenCode).
+
+**Implicit mode** (multiple skills, agent auto-selects):
+
+```bash
+uv run python -m evmbench.nano.entrypoint \
+    evmbench.audit=2023-07-pooltogether \
+    evmbench.mode=detect \
+    evmbench.solver=evmbench.nano.solver.EVMbenchSolver \
+    evmbench.solver.agent_id=opencode \
+    evmbench.skill_path=/path/to/skills_dataset \
+    evmbench.skill_mode=implicit \
+    runner.concurrency=1
+```
+
+In implicit mode, all subdirectories containing a `SKILL.md` are copied to the agent's skill directory. The agent auto-triggers relevant skills based on the `description` field in each `SKILL.md`.
+
 #### Example: run a real agent on one audit
 
 After setting the relevant API key(s) (see Environment variables above), you can run e.g. Codex in patch mode:
