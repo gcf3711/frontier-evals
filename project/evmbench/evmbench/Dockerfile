@@ -43,7 +43,7 @@ RUN python3 -m pip install --no-cache-dir jupyter ipykernel && \
 # Create directory skeleton
 RUN mkdir -p "$AUDIT_DIR" "$SUBMISSION_DIR" "$LOGS_DIR"
 
-ENV CODEX_VERSION=rust-v0.98.0
+ENV CODEX_VERSION=rust-v0.134.0
 ENV ARCH=x86_64
 ENV CODEX_URL=https://github.com/openai/codex/releases/download/${CODEX_VERSION}/codex-${ARCH}-unknown-linux-gnu.tar.gz
 RUN set -eux; \
@@ -56,13 +56,13 @@ RUN set -eux; \
     cd /; rm -rf /usr/local/src/codex; \
     codex --version
 
-ENV CLAUDE_CODE_VERSION=2.1.32
+ENV CLAUDE_CODE_VERSION=2.1.153
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
-ENV GEMINI_VERSION=0.25.0
+ENV GEMINI_VERSION=0.44.0
 RUN npm install -g @google/gemini-cli@${GEMINI_VERSION}
 
-ENV OPENCODE_VERSION=1.1.26
+ENV OPENCODE_VERSION=1.15.11
 RUN npm install -g opencode-ai@${OPENCODE_VERSION}
 
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb && dpkg -i ripgrep_14.1.1-1_amd64.deb
