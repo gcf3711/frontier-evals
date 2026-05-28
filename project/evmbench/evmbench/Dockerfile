@@ -43,18 +43,8 @@ RUN python3 -m pip install --no-cache-dir jupyter ipykernel && \
 # Create directory skeleton
 RUN mkdir -p "$AUDIT_DIR" "$SUBMISSION_DIR" "$LOGS_DIR"
 
-ENV CODEX_VERSION=rust-v0.134.0
-ENV ARCH=x86_64
-ENV CODEX_URL=https://github.com/openai/codex/releases/download/${CODEX_VERSION}/codex-${ARCH}-unknown-linux-gnu.tar.gz
-RUN set -eux; \
-    mkdir -p /usr/local/src/codex; cd /usr/local/src/codex; \
-    curl -L -o codex.tgz "$CODEX_URL"; \
-    ENTRY="$(tar -tzf codex.tgz | grep -v '/$' | head -n1)"; \
-    test -n "$ENTRY"; \
-    tar -xzf codex.tgz -O "$ENTRY" > /usr/local/bin/codex; \
-    chmod 0755 /usr/local/bin/codex; \
-    cd /; rm -rf /usr/local/src/codex; \
-    codex --version
+ENV CODEX_VERSION=0.134.0
+RUN npm install -g @openai/codex@${CODEX_VERSION}
 
 ENV CLAUDE_CODE_VERSION=2.1.153
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
