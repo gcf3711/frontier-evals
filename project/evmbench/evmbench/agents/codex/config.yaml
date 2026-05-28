@@ -15,6 +15,13 @@ codex-default:
   env_vars:
     <<: *env-config-vars
 
+codex-gpt-5.5:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: gpt-5.5
+    REASONING_EFFORT: xhigh
+
 codex-gpt-5.3-codex:
   <<: *common_settings
   env_vars:
