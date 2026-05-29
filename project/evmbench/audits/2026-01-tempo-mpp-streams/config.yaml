@@ -5,6 +5,14 @@ base_commit: 41962def7127946d8ab2f0e0ccb0f689f3fb79d6
 exploit_chain_block_time: 1
 
 vulnerabilities:
+  - id: "H-01"
+    title: "Cross-chain voucher replay allows draining channels across Tempo networks"
+    award: 0.0
+
+  - id: "H-02"
+    title: "Cumulative amount underflow in close() allows draining channel deposits"
+    award: 0.0
+
   - id: "H-03"
     title: "Authorized signer validation bypass via zero address signature recovery"
     test: "testZeroAddressBypass"

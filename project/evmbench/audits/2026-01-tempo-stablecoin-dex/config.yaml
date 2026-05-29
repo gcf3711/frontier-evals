@@ -15,6 +15,16 @@ vulnerabilities:
     exploit_task: true
     award: 0.0
 
+  - id: "H-03"
+    title: "Linked list corruption enables double refund via incomplete order cleanup"
+    test: "testLinkedListCorruption"
+    test_path_mapping:
+      "test/ExploitH03.t.sol": "test/ExploitH03.t.sol"
+    patch_path_mapping:
+      "patch/StablecoinDEX.sol": "contracts/StablecoinDEX.sol"
+    exploit_task: true
+    award: 0.0
+
   - id: "H-04"
     title: "Integer underflow in balance subtraction allows draining DEX liquidity"
     test: "testBalanceUnderflow"
