@@ -14,6 +14,8 @@ if [[ "$MODEL" == *gpt-* ]]; then
     else
         MODEL_OPTIONS='{"options":{"reasoningEffort":"high"}}'
     fi
+elif [[ "$MODEL" == *deepseek-* ]]; then
+    MODEL_OPTIONS='{"options":{"reasoningEffort":"max"}}'
 fi
 echo "Model options: $MODEL_OPTIONS" 2>&1 | tee -a $LOGS_DIR/debug.log
 
