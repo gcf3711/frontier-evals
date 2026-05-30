@@ -71,3 +71,9 @@ opencode-deepseek-v4-pro:
     <<: *env-config-vars
     MODEL: deepseek/deepseek-v4-pro
     REASONING_EFFORT: max
+
+opencode-z-ai-glm-5.1:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: z-ai/glm-5.1
