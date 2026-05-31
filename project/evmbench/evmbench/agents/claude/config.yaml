@@ -14,6 +14,18 @@ claude-default:
   env_vars:
     <<: *env-config-vars
 
+claude-opus-4.8:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: claude-opus-4-8
+
+claude-opus-4.7:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: claude-opus-4-7
+
 claude-opus-4.6:
   <<: *common_settings
   env_vars:
