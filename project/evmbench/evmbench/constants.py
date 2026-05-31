@@ -16,6 +16,7 @@ REMOTE_BASH_UTILS_PATH = AUDIT_DIR + "/utils.sh"
 REMOTE_BLOCK_NUMBER_PATH = AUDIT_DIR + "/block-number.json"
 REMOTE_PLOIT_TOML_PATH = AUDIT_DIR + "/.ploit.toml"
 REMOTE_CODEX_AUTH_PATH = AGENT_DIR + "/.codex/auth.json"
+REMOTE_CLAUDE_CREDENTIALS_PATH = AGENT_DIR + "/.claude/.credentials.json"
 REMOTE_CODEX_SESSIONS_DIR = AGENT_DIR + "/.codex/sessions"
 REMOTE_SKILL_STAGING_PATH = AGENT_DIR + "/skill_staging"
 

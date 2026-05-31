@@ -53,6 +53,7 @@ class EVMTask(ComputerTask):
     remove_forge_artifacts: bool = True
     hint_level: Literal["none", "low", "med", "high", "max"] = "none"
     codex_auth_path: str | None = None # If provided, will be used to authenticate with Codex
+    claude_credentials_path: str | None = None # If provided, will be used to authenticate with Claude Code
     skill_path: str | None = None # Path to skill folder(s) to upload to the container
     skill_mode: Literal["explicit", "implicit"] = "explicit" # explicit: single skill prepended to prompt; implicit: all skills loaded
     use_sidecar: bool = True
@@ -479,6 +480,9 @@ class EVMTask(ComputerTask):
 
         if self.codex_auth_path:
             await put_file_in_computer(computer, self.codex_auth_path, REMOTE_CODEX_AUTH_PATH)
+
+        if self.claude_credentials_path:
+            await put_file_in_computer(computer, self.claude_credentials_path, REMOTE_CLAUDE_CREDENTIALS_PATH)
 
         if self.skill_path:
             if self.skill_mode == "explicit":
