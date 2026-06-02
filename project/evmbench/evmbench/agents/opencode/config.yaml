@@ -1,13 +1,8 @@
 env-config-vars: &env-config-vars
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+  ZHIPU_API_KEY: ${{ secrets.GLM_API_KEY }}
   MODEL: openai/gpt-4.1
-  HTTP_PROXY: http://127.0.0.1:7890
-  HTTPS_PROXY: http://127.0.0.1:7890
-  http_proxy: http://127.0.0.1:7890
-  https_proxy: http://127.0.0.1:7890
-  ALL_PROXY: http://127.0.0.1:7890
-  all_proxy: http://127.0.0.1:7890
 
 common: &common_settings
   start: opencode/start.sh
@@ -17,6 +12,7 @@ common: &common_settings
     - models.dev
     - opencode.ai
     - api.openai.com
+    - open.bigmodel.cn
 
 opencode-default:
   <<: *common_settings
@@ -72,8 +68,8 @@ opencode-deepseek-v4-pro:
     MODEL: deepseek/deepseek-v4-pro
     REASONING_EFFORT: max
 
-opencode-z-ai-glm-5.1:
+opencode-zhipuai-glm-5.1:
   <<: *common_settings
   env_vars:
     <<: *env-config-vars
-    MODEL: z-ai/glm-5.1
+    MODEL: zhipuai/glm-5.1
