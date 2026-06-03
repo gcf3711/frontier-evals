@@ -1,7 +1,7 @@
 env-config-vars: &env-config-vars
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-  ZHIPU_API_KEY: ${{ secrets.GLM_API_KEY }}
+  ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
   MODEL: openai/gpt-4.1
 
 common: &common_settings

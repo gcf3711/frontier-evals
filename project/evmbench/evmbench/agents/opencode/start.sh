@@ -62,9 +62,9 @@ set +x
     export OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=1000000
     echo "OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=$OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX" 2>&1 | tee -a $LOGS_DIR/debug.log
     if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* ]]; then
-        opencode run --model "$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
+        opencode run --variant max --model "$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
     else
-        opencode run --model "openrouter/$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
+        opencode run --variant max --model "openrouter/$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
     fi
 } 2>&1 | tee $LOGS_DIR/agent.log
 set -x
