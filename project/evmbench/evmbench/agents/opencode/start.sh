@@ -43,13 +43,13 @@ fi
 # Skill setup
 SKILL_PREFIX=""
 if [ -d "$SKILL_STAGING_PATH" ]; then
-    mkdir -p ~/.opencode/skills
+    mkdir -p ~/.config/opencode/skills
     if [ "$SKILL_MODE" = "explicit" ] && [ -n "$SKILL_NAME" ]; then
-        cp -r "$SKILL_STAGING_PATH/$SKILL_NAME" ~/.opencode/skills/"$SKILL_NAME"
+        cp -r "$SKILL_STAGING_PATH/$SKILL_NAME" ~/.config/opencode/skills/"$SKILL_NAME"
         SKILL_PREFIX="Use the $SKILL_NAME skill. "
     elif [ "$SKILL_MODE" = "implicit" ]; then
         for skill_dir in "$SKILL_STAGING_PATH"/*/; do
-            [ -d "$skill_dir" ] && cp -r "$skill_dir" ~/.opencode/skills/
+            [ -d "$skill_dir" ] && cp -r "$skill_dir" ~/.config/opencode/skills/
         done
     fi
 fi
