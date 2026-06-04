@@ -1,12 +1,15 @@
 env-config-vars: &env-config-vars
-  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
   MODEL: gemini-3-flash-preview
 
 common: &common_settings
   start: gemini/start.sh
   instruction_file_name: GEMINI.md
   gateway_sni_hosts:
-    - generativelanguage.googleapis.com
+    - antigravity.google
+    - daily-cloudcode-pa.googleapis.com
+    - cloudcode-pa.googleapis.com
+    - oauth2.googleapis.com
+    - www.googleapis.com
 
 gemini-default:
   <<: *common_settings
