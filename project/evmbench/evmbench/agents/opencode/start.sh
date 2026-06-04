@@ -43,13 +43,14 @@ fi
 # Skill setup
 SKILL_PREFIX=""
 if [ -d "$SKILL_STAGING_PATH" ]; then
-    mkdir -p ~/.config/opencode/skills
+    OPENCODE_SKILLS_DIR="$HOME/.config/opencode/skills"
+    mkdir -p "$OPENCODE_SKILLS_DIR"
     if [ "$SKILL_MODE" = "explicit" ] && [ -n "$SKILL_NAME" ]; then
-        cp -r "$SKILL_STAGING_PATH/$SKILL_NAME" ~/.config/opencode/skills/"$SKILL_NAME"
+        cp -r "$SKILL_STAGING_PATH/$SKILL_NAME" "$OPENCODE_SKILLS_DIR/$SKILL_NAME"
         SKILL_PREFIX="Use the $SKILL_NAME skill. "
     elif [ "$SKILL_MODE" = "implicit" ]; then
         for skill_dir in "$SKILL_STAGING_PATH"/*/; do
-            [ -d "$skill_dir" ] && cp -r "$skill_dir" ~/.config/opencode/skills/
+            [ -d "$skill_dir" ] && cp -r "$skill_dir" "$OPENCODE_SKILLS_DIR/"
         done
     fi
 fi
@@ -67,6 +68,20 @@ set +x
         opencode run --variant max --model "openrouter/$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
     fi
 } 2>&1 | tee $LOGS_DIR/agent.log
+
+OPENCODE_SESSION_ID=$(rg -o 'ses_[A-Za-z0-9]+' "$LOGS_DIR/agent.log" | tail -n 1)
+if [ -n "$OPENCODE_SESSION_ID" ]; then
+    echo "Exporting OpenCode session: $OPENCODE_SESSION_ID" 2>&1 | tee -a $LOGS_DIR/debug.log
+    mkdir -p "$AGENT_DIR/opencode_sessions"
+    if opencode export "$OPENCODE_SESSION_ID" > "$AGENT_DIR/opencode_sessions/session.json"; then
+        echo "Exported OpenCode session to $AGENT_DIR/opencode_sessions/session.json" 2>&1 | tee -a $LOGS_DIR/debug.log
+    else
+        echo "Failed to export OpenCode session: $OPENCODE_SESSION_ID" 2>&1 | tee -a $LOGS_DIR/debug.log
+    fi
+else
+    echo "No OpenCode session ID found in $LOGS_DIR/agent.log" 2>&1 | tee -a $LOGS_DIR/debug.log
+fi
+
 set -x
 
 # Debug commands
@@ -76,4 +91,10 @@ set -x
     ls $AGENT_DIR
     ls $AUDIT_DIR
     ls $LOGS_DIR
+    if [ -d "$HOME/.config/opencode/skills" ]; then
+        ls -R "$HOME/.config/opencode/skills"
+        find "$HOME/.config/opencode/skills" -name SKILL.md
+    else
+        echo "No global OpenCode skills directory found at $HOME/.config/opencode/skills"
+    fi
 } 2>&1 | tee $LOGS_DIR/debug.log

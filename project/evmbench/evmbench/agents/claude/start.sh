@@ -39,6 +39,16 @@ set +x
     echo "$AUTH_STATUS"
     IS_SANDBOX=1 claude --verbose --model "$MODEL" --output-format stream-json --dangerously-skip-permissions --disallowed-tools "WebFetch,WebSearch" --print "$PROMPT"
 } 2>&1 | tee $LOGS_DIR/agent.log
+
+if [ -d "$HOME/.claude/projects" ]; then
+    mkdir -p "$AGENT_DIR/claude_sessions"
+    rm -rf "$AGENT_DIR/claude_sessions/projects"
+    cp -r "$HOME/.claude/projects" "$AGENT_DIR/claude_sessions/projects"
+    echo "Copied Claude sessions to $AGENT_DIR/claude_sessions/projects" 2>&1 | tee -a $LOGS_DIR/debug.log
+else
+    echo "No Claude session directory found at $HOME/.claude/projects" 2>&1 | tee -a $LOGS_DIR/debug.log
+fi
+
 set -x
 
 # Debug commands
@@ -50,4 +60,7 @@ set -x
     ls $AGENT_DIR
     ls $AUDIT_DIR
     ls $LOGS_DIR
+    if [ -d "$AGENT_DIR/claude_sessions" ]; then
+        ls -R "$AGENT_DIR/claude_sessions"
+    fi
 } 2>&1 | tee $LOGS_DIR/debug.log

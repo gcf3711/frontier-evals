@@ -596,7 +596,13 @@ class EVMTask(ComputerTask):
                         _print=True,
                     )
 
-        dirs_to_extract = [SUBMISSION_DIR, LOGS_DIR, REMOTE_CODEX_SESSIONS_DIR]
+        dirs_to_extract = [
+            SUBMISSION_DIR,
+            LOGS_DIR,
+            REMOTE_CODEX_SESSIONS_DIR,
+            AGENT_DIR + "/opencode_sessions",
+            AGENT_DIR + "/claude_sessions",
+        ]
         await extract_dirs_from_computer(computer, dirs_to_extract, self.run_dir)
 
         def _get_agent_output_path() -> Path | None:
