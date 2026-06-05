@@ -97,7 +97,7 @@ def _assert_no_unresolved_secrets(env: dict[str, str], *, agent_id: str) -> None
         keys = ", ".join(sorted(bad))
         raise RuntimeError(
             f"{agent_id}: unresolved secrets in env vars: {keys}. "
-            "Set the corresponding host env vars (e.g. OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, OPENROUTER_API_KEY)."
+            "Set the corresponding host env vars (e.g. OPENAI_API_KEY, ANTHROPIC_API_KEY, OPENROUTER_API_KEY)."
         )
 
 
@@ -181,11 +181,10 @@ async def _run_cli_smoke(
         cmd = "\n".join(
             [
                 "set -euo pipefail",
-                "test -n \"${GEMINI_API_KEY:-}\"",
                 "test -n \"${MODEL:-}\"",
-                "command -v gemini >/dev/null 2>&1",
+                "command -v agy >/dev/null 2>&1",
                 f"PROMPT={prompt_q}",
-                "gemini --yolo --model \"$MODEL\" --output-format stream-json -p \"$PROMPT\"",
+                "agy --model \"$MODEL\" --dangerously-skip-permissions --print \"$PROMPT\"",
             ]
         )
     elif family == "opencode":
@@ -300,7 +299,7 @@ async def _run_one(
 
 async def main_async() -> int:
     ap = argparse.ArgumentParser(
-        description="Smoke test that codex/claude/gemini/opencode CLIs run under EVMbench-like setup."
+        description="Smoke test that codex/claude/agy/opencode CLIs run under EVMbench-like setup."
     )
     ap.add_argument(
         "--audit-id",

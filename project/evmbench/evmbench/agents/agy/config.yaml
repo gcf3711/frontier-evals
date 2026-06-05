@@ -1,9 +1,9 @@
 env-config-vars: &env-config-vars
-  MODEL: gemini-3-flash-preview
+  MODEL: Gemini 3.1 Pro (Low)
 
 common: &common_settings
-  start: gemini/start.sh
-  instruction_file_name: GEMINI.md
+  start: agy/start.sh
+  instruction_file_name: AGY.md
   gateway_sni_hosts:
     - antigravity.google
     - daily-cloudcode-pa.googleapis.com
@@ -16,8 +16,8 @@ gemini-default:
   env_vars:
     <<: *env-config-vars
 
-gemini-3-pro-preview:
+gemini-3-5-flash-high:
   <<: *common_settings
   env_vars:
     <<: *env-config-vars
-    MODEL: gemini-3-pro-preview
+    MODEL: Gemini 3.5 Flash (High)

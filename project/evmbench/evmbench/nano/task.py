@@ -54,6 +54,7 @@ class EVMTask(ComputerTask):
     hint_level: Literal["none", "low", "med", "high", "max"] = "none"
     codex_auth_path: str | None = None # If provided, will be used to authenticate with Codex
     claude_credentials_path: str | None = None # If provided, will be used to authenticate with Claude Code
+    agy_token_path: str | None = None # If provided, will be used to authenticate with agy (OAuth token)
     skill_path: str | None = None # Path to skill folder(s) to upload to the container
     skill_mode: Literal["explicit", "implicit"] = "explicit" # explicit: single skill prepended to prompt; implicit: all skills loaded
     use_sidecar: bool = True
@@ -484,6 +485,9 @@ class EVMTask(ComputerTask):
         if self.claude_credentials_path:
             await put_file_in_computer(computer, self.claude_credentials_path, REMOTE_CLAUDE_CREDENTIALS_PATH)
 
+        if self.agy_token_path:
+            await put_file_in_computer(computer, self.agy_token_path, REMOTE_AGY_TOKEN_PATH)
+
         if self.skill_path:
             if self.skill_mode == "explicit":
                 skill_name = Path(self.skill_path).name
@@ -602,6 +606,7 @@ class EVMTask(ComputerTask):
             REMOTE_CODEX_SESSIONS_DIR,
             AGENT_DIR + "/opencode_sessions",
             AGENT_DIR + "/claude_sessions",
+            AGENT_DIR + "/agy_sessions",
         ]
         await extract_dirs_from_computer(computer, dirs_to_extract, self.run_dir)
 

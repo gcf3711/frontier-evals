@@ -49,8 +49,8 @@ RUN npm install -g @openai/codex@${CODEX_VERSION}
 ENV CLAUDE_CODE_VERSION=2.1.153
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
-ENV GEMINI_VERSION=0.44.0
-RUN npm install -g @google/gemini-cli@${GEMINI_VERSION}
+# Install agy (antigravity CLI)
+RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
 
 ENV OPENCODE_VERSION=1.15.11
 RUN npm install -g opencode-ai@${OPENCODE_VERSION}
