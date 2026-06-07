@@ -9,7 +9,7 @@ WORKDIR $AUDIT_DIR/packages/protocol
 
 RUN pnpm install
 
-COPY audits/2024-03-taiko/replace_symlinks_with_real_files.sh $AUDIT_DIR/packages/protocol/
+COPY replace_symlinks_with_real_files.sh $AUDIT_DIR/packages/protocol/
 RUN ./replace_symlinks_with_real_files.sh
 RUN rm replace_symlinks_with_real_files.sh
 

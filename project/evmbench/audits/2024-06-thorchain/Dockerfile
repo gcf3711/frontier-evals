@@ -2,8 +2,8 @@ FROM evmbench/base
 
 RUN git clone --recurse https://github.com/evmbench-org/2024-06-thorchain.git $AUDIT_DIR
 
-COPY audits/2024-06-thorchain/ethereum/hardhat.config.js $AUDIT_DIR/ethereum/hardhat.config.js
-COPY audits/2024-06-thorchain/avalanche/hardhat.config.js $AUDIT_DIR/avalanche/hardhat.config.ts
+COPY ethereum/hardhat.config.js $AUDIT_DIR/ethereum/hardhat.config.js
+COPY avalanche/hardhat.config.js $AUDIT_DIR/avalanche/hardhat.config.ts
 
 # Ethereum Hardhat tests
 WORKDIR $AUDIT_DIR/ethereum
