@@ -2,6 +2,7 @@ env-config-vars: &env-config-vars
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
   ZHIPU_API_KEY: ${{ secrets.ZHIPU_API_KEY }}
+  DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
   MODEL: openai/gpt-4.1
 
 common: &common_settings
@@ -65,8 +66,7 @@ opencode-deepseek-v4-pro:
   <<: *common_settings
   env_vars:
     <<: *env-config-vars
-    MODEL: deepseek/deepseek-v4-pro
-    REASONING_EFFORT: max
+    MODEL: deepseek-v4-pro
 
 opencode-zhipuai-glm-5.1:
   <<: *common_settings

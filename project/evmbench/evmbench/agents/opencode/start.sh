@@ -6,12 +6,14 @@ set -x
 {
     if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* ]]; then
         test -n "$ZHIPU_API_KEY" && echo "ZHIPU_API_KEY is set" || { echo "Missing ZHIPU_API_KEY"; exit 1; }
+    elif [[ "$MODEL" == deepseek* ]]; then
+        test -n "$DEEPSEEK_API_KEY" && echo "DEEPSEEK_API_KEY is set" || { echo "Missing DEEPSEEK_API_KEY"; exit 1; }
     else
         test -n "$OPENROUTER_API_KEY" && echo "OPENROUTER_API_KEY is set" || { echo "Missing OPENROUTER_API_KEY"; exit 1; }
     fi
 } 2>&1 | tee $LOGS_DIR/debug.log
 
-if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* ]]; then
+if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* || "$MODEL" == deepseek* ]]; then
     rm -f $AGENT_DIR/opencode.json
 else
     MODEL_OPTIONS="{}"
@@ -62,7 +64,7 @@ set +x
     # Remove OpenCode's global output cap
     export OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=1000000
     echo "OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX=$OPENCODE_EXPERIMENTAL_OUTPUT_TOKEN_MAX" 2>&1 | tee -a $LOGS_DIR/debug.log
-    if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* ]]; then
+    if [[ "$MODEL" == zhipu/glm* || "$MODEL" == zhipuai/glm* || "$MODEL" == deepseek* ]]; then
         opencode run --variant max --model "$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
     else
         opencode run --variant max --model "openrouter/$MODEL" --format json --dangerously-skip-permissions "$PROMPT"
