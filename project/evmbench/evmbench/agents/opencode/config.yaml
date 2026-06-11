@@ -62,11 +62,11 @@ opencode-openai-gpt-5.2:
     <<: *env-config-vars
     MODEL: openai/gpt-5.2
 
-opencode-deepseek-v4-pro:
+opencode-deepseek-deepseek-v4-pro:
   <<: *common_settings
   env_vars:
     <<: *env-config-vars
-    MODEL: deepseek-v4-pro
+    MODEL: deepseek/deepseek-v4-pro
 
 opencode-zhipuai-glm-5.1:
   <<: *common_settings
