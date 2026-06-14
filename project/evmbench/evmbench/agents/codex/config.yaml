@@ -1,5 +1,6 @@
 env-config-vars: &env-config-vars
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
   MODEL: o4-mini
   REASONING_EFFORT: high
 
@@ -14,6 +15,13 @@ codex-default:
   <<: *common_settings
   env_vars:
     <<: *env-config-vars
+
+codex-deepseek-v4-pro:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: deepseek-v4-pro
+    REASONING_EFFORT: xhigh
 
 codex-gpt-5.5:
   <<: *common_settings
