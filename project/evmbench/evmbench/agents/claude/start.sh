@@ -3,19 +3,34 @@
 # Print commands and their arguments as they are executed
 set -x
 
-export ANTHROPIC_BASE_URL="https://api.anthropic.com"
-REMOTE_CLAUDE_CREDENTIALS_PATH="$AGENT_DIR/.claude/.credentials.json"
-
-# Claude auth setup
-if [ -f "$REMOTE_CLAUDE_CREDENTIALS_PATH" ]; then
-    mkdir -p ~/.claude
-    cp "$REMOTE_CLAUDE_CREDENTIALS_PATH" ~/.claude/.credentials.json
-    chmod 600 ~/.claude/.credentials.json
-    unset ANTHROPIC_API_KEY
-    AUTH_STATUS="Using ~/.claude/.credentials.json for Claude authentication"
+if [[ "$MODEL" == deepseek* ]]; then
+    # DeepSeek via Claude Code's native Anthropic-compatible endpoint (no bridge needed).
+    export ANTHROPIC_BASE_URL="https://api.deepseek.com/anthropic"
+    export ANTHROPIC_AUTH_TOKEN="$DEEPSEEK_API_KEY"
+    export ANTHROPIC_MODEL="$MODEL"
+    export ANTHROPIC_DEFAULT_OPUS_MODEL="$MODEL"
+    export ANTHROPIC_DEFAULT_SONNET_MODEL="$MODEL"
+    export ANTHROPIC_DEFAULT_HAIKU_MODEL="deepseek-v4-flash"
+    export CLAUDE_CODE_SUBAGENT_MODEL="deepseek-v4-flash"
+    export CLAUDE_CODE_EFFORT_LEVEL="max"
+    unset ANTHROPIC_API_KEY   # use ANTHROPIC_AUTH_TOKEN (Bearer) instead
+    test -n "$ANTHROPIC_AUTH_TOKEN" || { echo "Missing DEEPSEEK_API_KEY for deepseek model"; exit 1; }
+    AUTH_STATUS="Using DeepSeek via api.deepseek.com/anthropic (ANTHROPIC_AUTH_TOKEN)"
 else
-    test -n "$ANTHROPIC_API_KEY" || { echo "Missing ANTHROPIC_API_KEY and no .credentials.json found"; exit 1; }
-    AUTH_STATUS="Using ANTHROPIC_API_KEY for Claude authentication"
+    export ANTHROPIC_BASE_URL="https://api.anthropic.com"
+    REMOTE_CLAUDE_CREDENTIALS_PATH="$AGENT_DIR/.claude/.credentials.json"
+
+    # Claude auth setup
+    if [ -f "$REMOTE_CLAUDE_CREDENTIALS_PATH" ]; then
+        mkdir -p ~/.claude
+        cp "$REMOTE_CLAUDE_CREDENTIALS_PATH" ~/.claude/.credentials.json
+        chmod 600 ~/.claude/.credentials.json
+        unset ANTHROPIC_API_KEY
+        AUTH_STATUS="Using ~/.claude/.credentials.json for Claude authentication"
+    else
+        test -n "$ANTHROPIC_API_KEY" || { echo "Missing ANTHROPIC_API_KEY and no .credentials.json found"; exit 1; }
+        AUTH_STATUS="Using ANTHROPIC_API_KEY for Claude authentication"
+    fi
 fi
 
 # Skill setup

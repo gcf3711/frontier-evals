@@ -8,6 +8,7 @@ common: &common_settings
   instruction_file_name: CLAUDE.md
   gateway_sni_hosts:
     - api.anthropic.com
+    - api.deepseek.com
 
 claude-default:
   <<: *common_settings
@@ -43,3 +44,12 @@ claude-sonnet-4.5:
   env_vars:
     <<: *env-config-vars
     MODEL: claude-sonnet-4-5-20250929
+
+# DeepSeek via Claude Code's Anthropic-compatible endpoint (api.deepseek.com/anthropic).
+# start.sh detects the `deepseek*` MODEL and rewires ANTHROPIC_* env to DeepSeek; max reasoning effort.
+claude-deepseek-v4-pro:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: "deepseek-v4-pro[1m]"
+    DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
