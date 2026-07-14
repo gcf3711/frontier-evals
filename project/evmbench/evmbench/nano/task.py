@@ -55,6 +55,7 @@ class EVMTask(ComputerTask):
     codex_auth_path: str | None = None # If provided, will be used to authenticate with Codex
     claude_credentials_path: str | None = None # If provided, will be used to authenticate with Claude Code
     agy_token_path: str | None = None # If provided, will be used to authenticate with agy (OAuth token)
+    grok_auth_path: str | None = None # If provided, will be used to authenticate with grok (auth.json)
     skill_path: str | None = None # Path to skill folder(s) to upload to the container
     skill_mode: Literal["explicit", "implicit"] = "explicit" # explicit: single skill prepended to prompt; implicit: all skills loaded
     use_sidecar: bool = True
@@ -487,6 +488,9 @@ class EVMTask(ComputerTask):
 
         if self.agy_token_path:
             await put_file_in_computer(computer, self.agy_token_path, REMOTE_AGY_TOKEN_PATH)
+
+        if self.grok_auth_path:
+            await put_file_in_computer(computer, self.grok_auth_path, REMOTE_GROK_AUTH_PATH)
 
         if self.skill_path:
             if self.skill_mode == "explicit":

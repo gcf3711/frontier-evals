@@ -50,10 +50,15 @@ ENV CLAUDE_CODE_VERSION=2.1.153
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
 # Install agy (antigravity CLI)
+# ENV AGY_VERSION=1.0.6
 RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
 
 ENV OPENCODE_VERSION=1.15.11
 RUN npm install -g opencode-ai@${OPENCODE_VERSION}
+
+# Install grok CLI (xAI). 
+# ENV GROK_CLI_VERSION=0.2.93
+RUN curl -fsSL https://x.ai/cli/install.sh | bash
 
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb && dpkg -i ripgrep_14.1.1-1_amd64.deb
 

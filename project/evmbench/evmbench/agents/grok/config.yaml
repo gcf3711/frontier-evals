@@ -1,0 +1,27 @@
+# grok-4.5 supports reasoning effort low/medium/high only (high is the default & max).
+env-config-vars: &env-config-vars
+  XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+  MODEL: grok-4.5
+  REASONING_EFFORT: high
+
+common: &common_settings
+  start: grok/start.sh
+  instruction_file_name: AGENTS.md
+  # SNI allowlist is exact-match: api.x.ai serves API-key auth,
+  # cli-chat-proxy.grok.com serves OAuth-session inference, auth.x.ai serves token refresh.
+  gateway_sni_hosts:
+    - api.x.ai
+    - cli-chat-proxy.grok.com
+    - auth.x.ai
+
+grok-default:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+
+grok-4.5:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: grok-4.5
+    REASONING_EFFORT: high

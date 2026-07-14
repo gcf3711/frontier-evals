@@ -47,6 +47,7 @@ class EVMbench(PythonCodingEval):
     codex_auth_path: str | None = chz.field(default=None)
     claude_credentials_path: str | None = chz.field(default=None)
     agy_token_path: str | None = chz.field(default=None)
+    grok_auth_path: str | None = chz.field(default=None)
     skill_path: str | None = chz.field(default=None, doc="Path to a skill folder (explicit) or directory of skill folders (implicit)")
     skill_mode: Literal["explicit", "implicit"] = chz.field(default="explicit", doc="explicit: single skill prepended to prompt; implicit: all skills loaded, agent auto-selects")
     use_sidecar: bool = chz.field(default=True, doc="Run ploit/veto in a sidecar for agent.")
@@ -139,6 +140,7 @@ class EVMbench(PythonCodingEval):
                     codex_auth_path=self.codex_auth_path,
                     claude_credentials_path=self.claude_credentials_path,
                     agy_token_path=self.agy_token_path,
+                    grok_auth_path=self.grok_auth_path,
                     skill_path=self.skill_path,
                     skill_mode=self.skill_mode,
                     use_sidecar=self.use_sidecar,

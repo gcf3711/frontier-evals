@@ -18,6 +18,7 @@ REMOTE_PLOIT_TOML_PATH = AUDIT_DIR + "/.ploit.toml"
 REMOTE_CODEX_AUTH_PATH = AGENT_DIR + "/.codex/auth.json"
 REMOTE_CLAUDE_CREDENTIALS_PATH = AGENT_DIR + "/.claude/.credentials.json"
 REMOTE_AGY_TOKEN_PATH = AGENT_DIR + "/.gemini/antigravity-cli/antigravity-oauth-token"
+REMOTE_GROK_AUTH_PATH = AGENT_DIR + "/.grok/auth.json"
 REMOTE_CODEX_SESSIONS_DIR = AGENT_DIR + "/.codex/sessions"
 REMOTE_SKILL_STAGING_PATH = AGENT_DIR + "/skill_staging"
 
