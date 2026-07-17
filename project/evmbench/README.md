@@ -48,6 +48,12 @@ uv run docker_build.py --no-build-base --audit <audit_id>
 
 The build script assumes `ploit-builder:latest` already exists locally.
 
+> **Note:** The base image installs the grok CLI from `x.ai`. If your network can only reach `x.ai` through a proxy, build the base image with it, e.g.:
+> ```bash
+> docker build --network host --build-arg HTTPS_PROXY=$HTTPS_PROXY -t evmbench/base:latest evmbench
+> ```
+> then build the audit images with `--no-build-base`.
+
 ### Environment variables
 
 Non-`human` agents require provider API keys. These are:

@@ -611,6 +611,7 @@ class EVMTask(ComputerTask):
             AGENT_DIR + "/opencode_sessions",
             AGENT_DIR + "/claude_sessions",
             AGENT_DIR + "/agy_sessions",
+            AGENT_DIR + "/grok_sessions",
         ]
         await extract_dirs_from_computer(computer, dirs_to_extract, self.run_dir)
 
