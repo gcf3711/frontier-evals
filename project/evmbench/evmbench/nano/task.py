@@ -56,6 +56,7 @@ class EVMTask(ComputerTask):
     claude_credentials_path: str | None = None # If provided, will be used to authenticate with Claude Code
     agy_token_path: str | None = None # If provided, will be used to authenticate with agy (OAuth token)
     grok_auth_path: str | None = None # If provided, will be used to authenticate with grok (auth.json)
+    kimi_auth_path: str | None = None # If provided, will be used to authenticate with kimi-code (credentials/kimi-code.json)
     skill_path: str | None = None # Path to skill folder(s) to upload to the container
     skill_mode: Literal["explicit", "implicit"] = "explicit" # explicit: single skill prepended to prompt; implicit: all skills loaded
     use_sidecar: bool = True
@@ -492,6 +493,9 @@ class EVMTask(ComputerTask):
         if self.grok_auth_path:
             await put_file_in_computer(computer, self.grok_auth_path, REMOTE_GROK_AUTH_PATH)
 
+        if self.kimi_auth_path:
+            await put_file_in_computer(computer, self.kimi_auth_path, REMOTE_KIMI_AUTH_PATH)
+
         if self.skill_path:
             if self.skill_mode == "explicit":
                 skill_name = Path(self.skill_path).name
@@ -612,6 +616,12 @@ class EVMTask(ComputerTask):
             AGENT_DIR + "/claude_sessions",
             AGENT_DIR + "/agy_sessions",
             AGENT_DIR + "/grok_sessions",
+            AGENT_DIR + "/kimi_sessions",
+            # Kimi's OAuth access token has a 15-min TTL and the refresh token rotates, so the
+            # container refreshes (and invalidates the staged copy) mid-run. Extract the
+            # container's refreshed credential so a sequential batch runner can write it back to
+            # the host before the next run, keeping the OAuth chain alive across runs.
+            AGENT_DIR + "/.kimi-code/credentials",
         ]
         await extract_dirs_from_computer(computer, dirs_to_extract, self.run_dir)
 

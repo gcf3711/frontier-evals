@@ -56,9 +56,13 @@ RUN curl -fsSL https://antigravity.google/cli/install.sh | bash
 ENV OPENCODE_VERSION=1.15.11
 RUN npm install -g opencode-ai@${OPENCODE_VERSION}
 
-# Install grok CLI (xAI). 
+# Install grok CLI (xAI).
 # ENV GROK_CLI_VERSION=0.2.101
 RUN curl -fsSL https://x.ai/cli/install.sh | bash
+
+# Install Kimi Code CLI (Moonshot AI)
+ENV KIMI_CODE_VERSION=0.27.0
+RUN npm install -g @moonshot-ai/kimi-code@${KIMI_CODE_VERSION}
 
 RUN curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.1.1/ripgrep_14.1.1-1_amd64.deb && dpkg -i ripgrep_14.1.1-1_amd64.deb
 

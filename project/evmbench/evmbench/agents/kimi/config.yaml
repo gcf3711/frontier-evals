@@ -1,0 +1,27 @@
+# Kimi Code (Moonshot AI). Auth is the staged OAuth session at
+# ~/.kimi-code/credentials/kimi-code.json; start.sh writes ~/.kimi-code/config.toml.
+# K3 supports reasoning effort low/high/max (max is the default & max).
+env-config-vars: &env-config-vars
+  MODEL: kimi-code/k3
+  REASONING_EFFORT: max
+
+common: &common_settings
+  start: kimi/start.sh
+  instruction_file_name: AGENTS.md
+  # SNI allowlist is exact-match: api.kimi.com serves the OAuth-session coding endpoint
+  # (api.kimi.com/coding/v1), auth.kimi.com serves OAuth token refresh.
+  gateway_sni_hosts:
+    - api.kimi.com
+    - auth.kimi.com
+
+kimi-default:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+
+kimi-k3:
+  <<: *common_settings
+  env_vars:
+    <<: *env-config-vars
+    MODEL: kimi-code/k3
+    REASONING_EFFORT: max

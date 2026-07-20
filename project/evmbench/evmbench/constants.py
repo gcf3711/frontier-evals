@@ -19,6 +19,8 @@ REMOTE_CODEX_AUTH_PATH = AGENT_DIR + "/.codex/auth.json"
 REMOTE_CLAUDE_CREDENTIALS_PATH = AGENT_DIR + "/.claude/.credentials.json"
 REMOTE_AGY_TOKEN_PATH = AGENT_DIR + "/.gemini/antigravity-cli/antigravity-oauth-token"
 REMOTE_GROK_AUTH_PATH = AGENT_DIR + "/.grok/auth.json"
+# Kimi Code stores its OAuth session under credentials/<profile>.json (default profile: kimi-code).
+REMOTE_KIMI_AUTH_PATH = AGENT_DIR + "/.kimi-code/credentials/kimi-code.json"
 REMOTE_CODEX_SESSIONS_DIR = AGENT_DIR + "/.codex/sessions"
 REMOTE_SKILL_STAGING_PATH = AGENT_DIR + "/skill_staging"
 
